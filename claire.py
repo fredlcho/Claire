@@ -2,14 +2,15 @@ import speech_recognition as sr
 import pyttsx3
 import random
 import webbrowser
+import re
 r = sr.Recognizer()
 mic = sr.Microphone()
 
 
 #webbrowser.register('google-chrome',Chrome('google-chrome'))
 print(webbrowser._browsers)
-
-positiveresponses = ["that's great!","cool!","terrific!","awesome!"]
+#chrome = webbrowser.get('chrome %s')
+positiveresponses = ["that's great!","cool!","that's terrific!","awesome!"]
 negativeresponses = ["oh no what happened?", "that's awful", "feel better soon", "that's terrible"]
 userpositiveresponses = ["good","I'm good thanks","I'm great","amazing","I'm terrific"]
 usernegativeresponses = ["not so good","terrible","could be better","I'm awful"]
@@ -37,13 +38,21 @@ with mic as source:
        try:
           audio = r.listen(source)
           print(r.recognize_google(audio))
+          #mystring = r.recognize_google(audio)# mystring = " X Claire"
           if r.recognize_google(audio) == "hi Claire":
              conversation(audio,engine)
           elif r.recognize_google(audio) == "Claire open ninjas stream":
              engine.say("now opening ninja's stream")
              webbrowser.get('chrome %s').open_new_tab('http://www.twitch.tv/ninja')
              engine.runAndWait()
-             print("haha")
+             #print("haha")
+          elif r.recognize_google(audio) == "Claire open toast stream":
+             engine.say("now opening toast's stream")
+             webbrowser.get('chrome %s').open_new_tab("https://www.twitch.tv/disguisedtoasths")
+             engine.runAndWait()
+          elif r.recognize_google(audio) == "thank you":
+            engine.say("you're welcome")
+            engine.runAndWait()
        except sr.UnknownValueError:
           engine.say("I didn't quite catch that")
           engine.runAndWait()
